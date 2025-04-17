@@ -1,6 +1,6 @@
 package mn.dailycodework.dreamshops.model;
 
-import java.sql.Blob;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -22,9 +22,10 @@ public class Image extends BaseEntity {
     private String fileType;
 
     @Lob
-    private Blob image;
+    private byte[] image;
     private String downloadUrl;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;

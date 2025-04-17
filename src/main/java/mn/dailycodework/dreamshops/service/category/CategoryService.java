@@ -3,7 +3,6 @@ package mn.dailycodework.dreamshops.service.category;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -12,11 +11,10 @@ import mn.dailycodework.dreamshops.exceptions.ResourceNotFoundException;
 import mn.dailycodework.dreamshops.model.Category;
 import mn.dailycodework.dreamshops.repository.CategoryRepository;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class CategoryService implements ICategoryService {
 
-    @Autowired
     private final CategoryRepository categoryRepository;
 
     @Override

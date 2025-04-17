@@ -14,8 +14,8 @@ import mn.dailycodework.dreamshops.repository.ProductRepository;
 import mn.dailycodework.dreamshops.request.AddProductRequest;
 import mn.dailycodework.dreamshops.request.ProductUpdateRequest;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class ProductService implements IProductService {
 
     private final ProductRepository productRepository;
@@ -55,12 +55,12 @@ public class ProductService implements IProductService {
 
     @Override
     public List<Product> getProductsByBrand(String brand) {
-        return productRepository.findByBrandName(brand);
+        return productRepository.findByBrand(brand);
     }
 
     @Override
-    public List<Product> getProductsByCateforyAndBrand(String category, String brand) {
-        return productRepository.findByCategoryNameAndBrandName(category, brand);
+    public List<Product> getProductsByCategoryAndBrand(String category, String brand) {
+        return productRepository.findByCategoryNameAndBrand(category, brand);
     }
 
     @Override
@@ -70,12 +70,12 @@ public class ProductService implements IProductService {
 
     @Override
     public List<Product> getProductsByBrandAndName(String brand, String name) {
-        return productRepository.findByBrandNameAndName(brand, name);
+        return productRepository.findByBrandAndName(brand, name);
     }
 
     @Override
     public Long countProductsByBrandAndName(String brand, String name) {
-        return productRepository.countByBrandNameAndName(brand, name);
+        return productRepository.countByBrandAndName(brand, name);
     }
 
     @Override

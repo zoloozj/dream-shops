@@ -1,13 +1,11 @@
 package mn.dailycodework.dreamshops.service.image;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.rowset.serial.SerialBlob;
-
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
@@ -18,8 +16,8 @@ import mn.dailycodework.dreamshops.model.Product;
 import mn.dailycodework.dreamshops.repository.ImageRepository;
 import mn.dailycodework.dreamshops.service.product.ProductService;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class ImageService implements IImageService {
 
     // Assuming you have an ImageRepository and ProductRepository to handle database
@@ -33,6 +31,7 @@ public class ImageService implements IImageService {
     }
 
     @Override
+    @Transactional
     public void deleteImageById(Long id) {
         imageRepository.findById(id).ifPresentOrElse(imageRepository::delete, () -> {
             throw new ResourceNotFoundException("Image not found");
@@ -41,6 +40,7 @@ public class ImageService implements IImageService {
     }
 
     @Override
+    @Transactional
     public List<ImageDto> createImage(List<MultipartFile> files, Long productId) {
         Product product = productService.getProductById(productId);
         List<ImageDto> savedImageDto = new ArrayList<>();
@@ -49,7 +49,7 @@ public class ImageService implements IImageService {
                 Image image = new Image();
                 image.setFileName(file.getOriginalFilename());
                 image.setFileType(file.getContentType());
-                image.setImage(new SerialBlob(file.getBytes()));
+                image.setImage(file.getBytes());
                 image.setProduct(product);
 
                 String buildDownloadUrl = "/api/v1/images/image/download/";
@@ -66,7 +66,7 @@ public class ImageService implements IImageService {
                 imageDto.setDownloadUrl(savedImage.getDownloadUrl());
                 savedImageDto.add(imageDto);
 
-            } catch (IOException | SQLException e) {
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -75,15 +75,16 @@ public class ImageService implements IImageService {
     }
 
     @Override
+    @Transactional
     public void updateImage(MultipartFile file, Long imageId) {
         Image image = getImageById(imageId);
         try {
             image.setFileName(file.getOriginalFilename());
             image.setFileType(file.getContentType());
-            image.setImage(new SerialBlob(file.getBytes()));
+            image.setImage(file.getBytes());
             imageRepository.save(image);
 
-        } catch (IOException | SQLException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
