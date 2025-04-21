@@ -2,6 +2,7 @@ package mn.dailycodework.dreamshops.service.product;
 
 import java.util.List;
 
+import mn.dailycodework.dreamshops.dto.ProductDto;
 import mn.dailycodework.dreamshops.model.Product;
 import mn.dailycodework.dreamshops.request.AddProductRequest;
 import mn.dailycodework.dreamshops.request.ProductUpdateRequest;
@@ -28,4 +29,8 @@ public interface IProductService {
     void deleteProduct(Long id);
 
     Product updateProduct(ProductUpdateRequest product, Long productId);
+
+    ProductDto convertToDto(Product product);
+
+    List<ProductDto> getConvertedProducts(List<Product> products);
 }
