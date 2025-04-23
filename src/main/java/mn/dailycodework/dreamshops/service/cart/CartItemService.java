@@ -26,7 +26,7 @@ public class CartItemService implements ICartItemService {
     public void addCartItemtoCart(Long cartId, Long productId, int quantity) {
         Cart cart = cartService.getCart(cartId);
         Product product = productService.getProductById(productId);
-        CartItem cartItem = cart.getCartItems()
+        CartItem cartItem = cart.getItems()
                 .stream()
                 .filter(item -> item.getProduct().getId().equals(productId))
                 .findFirst().orElse(new CartItem());
@@ -56,7 +56,7 @@ public class CartItemService implements ICartItemService {
     @Override
     public void updateItemQuanitity(Long cartId, Long productId, int quantity) {
         Cart cart = cartService.getCart(cartId);
-        cart.getCartItems()
+        cart.getItems()
                 .stream()
                 .filter(item -> item.getProduct().getId().equals(productId))
                 .findFirst()
@@ -73,7 +73,7 @@ public class CartItemService implements ICartItemService {
     @Override
     public CartItem getCartItem(Long cartId, Long productId) {
         Cart cart = cartService.getCart(cartId);
-        return cart.getCartItems()
+        return cart.getItems()
                 .stream()
                 .filter(item -> item.getProduct().getId().equals(productId))
                 .findFirst().orElseThrow(() -> new ResourceNotFoundException("Item not found"));
